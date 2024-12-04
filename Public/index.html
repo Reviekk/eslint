@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Ganancias</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: center;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Calculadora de Ganancias de Participantes</h1>
+<form id="formulario">
+    <label for="dias">Número de días:</label>
+    <input type="number" id="dias" name="dias" min="1" value="30">
+    
+    <label for="personas">Cantidad de personas por día:</label>
+    <input type="number" id="personas" name="personas" min="1" value="3">
+    
+    <label for="aporte">Aporte por persona ($):</label>
+    <input type="number" id="aporte" name="aporte" min="1" value="50">
+    
+    <button type="button" onclick="calcularGanancia()">Calcular Ganancia Total</button>
+</form>
+
+<h2>Resultado</h2>
+<p>Total acumulado por persona (por día): <strong id="resultado">0.00</strong> $</p>
+<p>Total acumulado durante todos los días: <strong id="totalAcumulado">0.00</strong> $</p>
+<p>Total ganado por la persona que ingresó el primer día (sumando sus ganancias de todos los días): <strong id="totalGanadoPrimerDia">0.00</strong> $</p>
+
+<script>
+    function calcularGanancia() {
+        // Obtener los valores del formulario
+        var dias = parseInt(document.getElementById('dias').value);
+        var personasPorDia = parseInt(document.getElementById('personas').value);
+        var aportePorPersona = parseFloat(document.getElementById('aporte').value);
+        
+        // Inicializar variables
+        var fondoTotal = 0;
+        var participantes = 0;
+        var gananciaPorParticipante = 0;
+        var totalAcumulado = 0;
+        var totalGanadoPrimerDia = 0;
+        
+        // Calcular la ganancia por persona
+        for (var i = 1; i <= dias; i++) {
+          
+            fondoTotal += personasPorDia * aportePorPersona;
+          
+            participantes += personasPorDia;
+
+            var repartoDiario = fondoTotal * 0.1;
+            gananciaPorParticipante = repartoDiario / participantes;
+            fondoTotal -= repartoDiario;
+            totalAcumulado += repartoDiario;
+            if (i === 1) {
+                totalGanadoPrimerDia += gananciaPorParticipante;
+            }
+            totalGanadoPrimerDia += gananciaPorParticipante;
+        }
+        
+        // Mostrar los resultados
+        document.getElementById('resultado').innerText = gananciaPorParticipante.toFixed(2);
+        document.getElementById('totalAcumulado').innerText = totalAcumulado.toFixed(2);
+        document.getElementById('totalGanadoPrimerDia').innerText = totalGanadoPrimerDia.toFixed(2);
+    }
+</script>
+
+</body>
+</html>
